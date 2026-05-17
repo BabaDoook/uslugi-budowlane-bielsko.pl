@@ -163,10 +163,8 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;padding:1.1rem 2.5rem;displa
 .area-locations{display:flex;flex-wrap:wrap;gap:.5rem}
 .location-tag{background:var(--dark4);border:1px solid var(--steel);padding:.38rem .9rem;font-size:.8rem;letter-spacing:1px;color:var(--white);font-family:'Barlow Condensed',sans-serif;text-transform:uppercase;font-weight:600}
 .location-tag.primary{background:var(--yellow);color:#000;border-color:var(--yellow)}
-.area-visual{aspect-ratio:4/3;background:var(--dark4);border:1px solid var(--steel);position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:1rem}
-.area-visual-label{font-family:'Barlow Condensed',sans-serif;font-size:.8rem;letter-spacing:3px;text-transform:uppercase;color:var(--muted)}
-/* map grid lines */
-.area-visual::before{content:'';position:absolute;inset:0;background-image:linear-gradient(rgba(245,194,0,.06) 1px,transparent 1px),linear-gradient(90deg,rgba(245,194,0,.06) 1px,transparent 1px);background-size:40px 40px}
+.area-map-wrap{aspect-ratio:4/3;border:2px solid rgba(245,194,0,0.25);overflow:hidden;position:relative;}
+.area-map-wrap::after{content:'';position:absolute;inset:0;border:2px solid rgba(245,194,0,0.15);pointer-events:none;}
 
 /* ════════════════════════════════════════
    CONTACT FORM SECTION
@@ -271,7 +269,7 @@ footer{background:var(--dark2);border-top:1px solid var(--dark4);padding:2.5rem 
 ════════════════════════════════════════ */
 @media(max-width:960px){
   .services-grid,.area-inner,.contact-inner{grid-template-columns:1fr}
-  .area-visual{display:none}
+  .area-map-wrap{display:none}
   .form-row{grid-template-columns:1fr}
   .services,.area,.contact{padding:4rem 1.5rem}
   .hero-content{padding:0 1.5rem;padding-top:100px}
@@ -454,14 +452,17 @@ footer{background:var(--dark2);border-top:1px solid var(--dark4);padding:2.5rem 
         <span class="location-tag">i okolice</span>
       </div>
     </div>
-    <div class="area-visual" aria-hidden="true">
-      <svg width="60" height="60" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <circle cx="30" cy="26" r="11" stroke="#F5C200" stroke-width="2"/>
-        <circle cx="30" cy="26" r="4.5" fill="#F5C200"/>
-        <path d="M30 37 L30 52" stroke="#F5C200" stroke-width="2" stroke-linecap="round"/>
-        <path d="M22 50 L38 50" stroke="#F5C200" stroke-width="2" stroke-linecap="round"/>
-      </svg>
-      <span class="area-visual-label">Bielsko-Biała i okolice</span>
+    <div class="area-map-wrap">
+      <iframe
+        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d82255.3!2d18.9!3d49.82!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x4714215d02b04f8d%3A0xa9dc1d08e05d0b44!2sBielsko-Bia%C5%82a!5e0!3m2!1spl!2spl!4v1700000000000!5m2!1spl!2spl"
+        width="100%"
+        height="100%"
+        style="border:0;filter:grayscale(1) invert(0.9) contrast(0.85);opacity:.85;"
+        allowfullscreen=""
+        loading="lazy"
+        referrerpolicy="no-referrer-when-downgrade"
+        title="Mapa obszaru działania – Bielsko-Biała i okolice">
+      </iframe>
     </div>
   </div>
 </section>
@@ -774,7 +775,7 @@ document.addEventListener('keydown',function(e){
 
     const data=new FormData(form);
 
-    fetch('send-mail.php',{method:'POST',body:data})
+    fetch('./send-mail.php',{method:'POST',body:data})
       .then(function(r){return r.json();})
       .then(function(res){
         if(res.success){
